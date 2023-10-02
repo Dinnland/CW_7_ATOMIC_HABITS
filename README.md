@@ -51,7 +51,7 @@
 - Пользователь
 
 
-# Начало работы --------------------------------------------------------------------
+# Начало работы ---------------------------
 
 ## Для начала работы с проектом необходимо:
 1. Создать и активировать виртуальное окружение 
@@ -60,7 +60,7 @@
 4. Создать файл .env на основе .env_exmpl с вашими данными почты, базы данных
 5. Выполнить миграции: "python manage.py makemigrations, python manage.py migrate"
 6. Запустить проект
-7. 
+
 ## Для работы с телеграм рассылкой необходимо выполнить следующее:
 1. Должен быть телеграм бот.
 2. Нужно прописать TELEGRAM_API_KEY в файл ".env".
@@ -70,33 +70,33 @@
 ## Рекомендации
 
 - Создать суперпользователя можно командой: 
-python manage.py csu
+  - python manage.py csu
 
 - Создать обычного пользователя можно командой: 
-python manage.py cu
+  - python manage.py cu
 
 - Для запуска redis:
-redis-cli
+  - redis-cli
 
 - Для запуска celery:
-celery -A CW_7_atomic_habits worker --pool=eventlet --loglevel=info
+  - celery -A CW_7_atomic_habits worker --pool=eventlet --loglevel=info
 
 - Для запуска django-celery-beat:
-celery -A CW_7_atomic_habits beat --loglevel=info
+  - celery -A CW_7_atomic_habits beat --loglevel=info
 
 - Для тестирования проекта запустить команду:
-python3 manage.py test
+  - python3 manage.py test
 
 - Для просмотра покрытия тестов:
-- coverage run --source='.' manage.py test
-- coverage report
+  - coverage run --source='.' manage.py test
+  - coverage report
 
 - Для запуска приложения:
-python3 manage.py runserver
+  - python3 manage.py runserver
 
 - Проверка flake8:
-flake8 CW_7_atomic_habits 
+  - flake8 CW_7_atomic_habits 
 
 - Документация проекта: 
-http://127.0.0.1:8000/swagger/
-http://127.0.0.1:8000/redoc/
+  - http://127.0.0.1:8000/swagger/
+  - http://127.0.0.1:8000/redoc/
