@@ -54,7 +54,11 @@ class User(AbstractUser):
     city = models.CharField(max_length=100, verbose_name='Город', **NULLABLE)
     country = models.CharField(max_length=100, verbose_name='Страна', **NULLABLE)
 
+    telegram_username = models.CharField(max_length=50, verbose_name='Имя в Телеграмм', **NULLABLE)
+    telegram_chat_id = models.IntegerField(verbose_name='Телеграмм чат id', **NULLABLE)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+

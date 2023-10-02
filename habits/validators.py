@@ -2,7 +2,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
 
-class HabbitsPleasantValidator:
+class HabitsPleasantValidator:
     """Проверка приятных полей"""
 
     def __init__(self, fields):

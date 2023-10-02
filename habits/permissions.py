@@ -1,6 +1,16 @@
 from rest_framework.permissions import BasePermission
 
 
+class IsOwner(BasePermission):
+    """Доступ только хозяину"""
+    def has_permission(self, request, view):
+        if request.user == view.get_object().user:
+            return True
+
+
+# НА будущее \/ ------------------------------------------------------------------------
+
+
 class IsOwnerOrStaffOrModerator(BasePermission):
     """Доступ хозяину и модератору"""
     def has_permission(self, request, view):
@@ -41,12 +51,4 @@ class ModeratorPermission(BasePermission):
         return request.user.groups.filter(name='moderator').exists() or request.user == obj.user
 
 
-class IsOwner(BasePermission):
-    """Доступ хозяину"""
-
-    def has_permission(self, request, view):
-        # owner
-
-        if request.user == view.get_object().user:
-            return True
 

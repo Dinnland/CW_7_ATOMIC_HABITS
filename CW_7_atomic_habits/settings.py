@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     # django rest_framework (DRF)
     'rest_framework',
     'django_filters',
+    'drf_yasg',    # Документация
+    'corsheaders',  # CORS (Cross-Origin Resource Sharing) — это механизм безопасности браузера
+    'django_celery_beat',  # Периодические задачи
 
     # my apps
     'users',    # Пользователи
@@ -70,6 +73,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'CW_7_atomic_habits.urls'
@@ -99,9 +104,6 @@ WSGI_APPLICATION = 'CW_7_atomic_habits.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-
         'ENGINE': os.getenv('ENGINE'),
         'NAME': os.getenv('NAME'),
         'USER': os.getenv('USER'),
@@ -202,11 +204,12 @@ if CACHE_ENABLED:
 
 CORS_ALLOWED_ORIGINS = [
     "https://localhost:8000",  # Замените на адрес вашего фронтенд-сервера
+    "https://*",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера
-    # и добавьте адрес бэкенд-сервера
+    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера и добавьте адрес бэкенд-сервера
+    "https://localhost:8000",
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
@@ -214,31 +217,37 @@ CORS_ALLOW_ALL_ORIGINS = False
 STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
-# # SELERY ---------------------------------------------------------------------------
-#
-# # URL-адрес брокера сообщений
-# CELERY_BROKER_URL = 'redis://localhost:6379/0'    # Например, Redis, который по умолчанию работает на порту 6379
-#
-# # URL-адрес брокера результатов, также Redis
-# CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
-#
-# # Часовой пояс для работы Celery
-# CELERY_TIMEZONE = "Europe/Moscow"
-#
-# # Флаг отслеживания выполнения задач
-# CELERY_TASK_TRACK_STARTED = True
-#
-# # Максимальное время на выполнение задачи
-# CELERY_TASK_TIME_LIMIT = 30 * 60
-#
-# # CELERY_BROKER_HEARTBEAT = 0
-#
-# # # Настройки для Celery - Установка расписания
-# # CELERY_BEAT_SCHEDULE = {
-# #     'task-name': {
-# #         'task': 'drf_din.tasks.my_task',  # Путь к задаче
-# #         'schedule': timedelta(minutes=10),  # Расписание выполнения задачи
-# #     },
-# # }
-#
-# # SELERY ---------------------------------------------------------------------------
+TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')  # API Ключ для телеграм бота
+
+# SELERY ---------------------------------------------------------------------------
+
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = 'redis://localhost:6379'    # Например, Redis, который по умолчанию работает на порту 6379
+
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+# Часовой пояс для работы Celery
+CELERY_TIMEZONE = "Europe/Moscow"
+
+# Флаг отслеживания выполнения задач
+CELERY_TASK_TRACK_STARTED = True
+
+# Максимальное время на выполнение задачи
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BROKER_HEARTBEAT = 0
+
+# Настройки для Celery - Установка расписания
+CELERY_BEAT_SCHEDULE = {
+    'task-name': {
+        'task': 'habits.tasks.get_chat_id',  # Путь к задаче
+        'schedule': timedelta(minutes=1),  # Расписание выполнения задачи
+    },
+    'task-name2': {
+        'task': 'habits.tasks.send_telegram_message',  # Путь к задаче
+        'schedule': timedelta(minutes=1),  # Расписание выполнения задачи
+    },
+}
+
+# SELERY ---------------------------------------------------------------------------

@@ -1,6 +1,9 @@
+import datetime
+
 from django.conf import settings
 from django.db import models
-from django.utils.timezone import now
+# from django.utils import timezone
+# from django.utils.timezone import now
 
 NULLABLE = {'null': True, 'blank': True}
 
@@ -22,7 +25,7 @@ class Habits(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, **NULLABLE,
                              verbose_name='Пользователь')
     place = models.CharField(max_length=150, verbose_name='Место')
-    time = models.DateTimeField(default=now, verbose_name='Время / по умолч: сейчас')
+    time = models.TimeField(default=datetime.datetime.now().time(), verbose_name='Время / по умолч: сейчас')
     action = models.CharField(max_length=200, verbose_name='Действие')
     is_pleasant_habit = models.BooleanField(default=False, verbose_name='Признак приятной/доп. привычки')
     related_habit = models.ForeignKey("Habits", verbose_name='Связанная привычка',

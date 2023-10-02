@@ -4,7 +4,8 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from users.serializers import UserSerializer, RegistrationSerializer
+from habits.tasks import get_chat_id
+from users.serializers import UserSerializer
 from users.models import User
 
 
@@ -21,15 +22,23 @@ class UserViewSet(viewsets.ModelViewSet):
 
         """
         if self.action == 'create':
-            print('cr')
             permission_classes = [AllowAny]
         else:
-            print('ff')
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
 
+    def get_queryset(self):
+        if self.request.user.groups.filter(name='moderator').exists():
+            print('.request.user.groups.filter(name="moderator").exists():')
+            return User.objects.all()
+        # print(self.request.user)
+
+        # пользователь не может видеть список других пользователей
+        return User.objects.filter(id=self.request.user.pk)
+
     def perform_create(self, serializer):
         new_user = serializer.save()
+        # get_chat_id.delay(new_user.telegram_username)
         new_user.save()
 
     def post(self, request):
@@ -39,17 +48,10 @@ class UserViewSet(viewsets.ModelViewSet):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+    # def update(self, request, *args, **kwargs):
+    #     # subscriptions = User.objects.filter(user=request.user)
+    #     if User.objects.filter(id=self.request.user.pk):
+    #         serializer = self.serializer_class(data=request.data)
+    #         serializer.save()
+    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-class RegistrationAPIView(APIView):
-    """
-    Регистрации пользователя / разрешить всем пользователям (аутентифицированным и нет) доступ к данному эндпоинту.
-    """
-    permission_classes = (AllowAny,)
-    serializer_class = RegistrationSerializer
-
-    def post(self, request):
-        serializer = self.serializer_class(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
