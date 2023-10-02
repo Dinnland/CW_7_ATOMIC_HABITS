@@ -22,7 +22,8 @@ load_dotenv(BASE_DIR / '.env')
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m*m+b6k$2nu&5-11=*m0fm+r-7@v($fquo40a(cb1yk8j3hp0a'
+SECRET_KEY = \
+    'django-insecure-m*m+b6k$2nu&5-11=*m0fm+r-7@v($fquo40a(cb1yk8j3hp0a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -49,13 +50,13 @@ INSTALLED_APPS = [
     # django rest_framework (DRF)
     'rest_framework',
     'django_filters',
-    'drf_yasg',    # Документация
-    'corsheaders',  # CORS (Cross-Origin Resource Sharing) — это механизм безопасности браузера
+    'drf_yasg',  # Документация
+    'corsheaders',  # CORS — механизм безопасности браузера
     'django_celery_beat',  # Периодические задачи
-
+    # 'rest_framework.authtoken',
     # my apps
-    'users',    # Пользователи
-    'habits',    # Привычки
+    'users',  # Пользователи
+    'habits',  # Привычки
 
 ]
 
@@ -98,7 +99,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CW_7_atomic_habits.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -113,25 +113,27 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+            'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -145,16 +147,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 
-
 AUTH_USER_MODEL = 'users.User'
-
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -182,8 +180,8 @@ REST_FRAMEWORK = {
     ),
     # ВСЕ ЗАКРЫВАЕТСЯ АУТЕНТИФИКАЦИЕЙ
     'DEFAULT_PERMISSION_CLASSES': [
-            'rest_framework.permissions.IsAuthenticated',
-        ],
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     # # По отдельности ЗАКРЫВАЕТСЯ АУТЕНТИФИКАЦИЕЙ
     # 'DEFAULT_PERMISSION_CLASSES': [
     #    'rest_framework.permissions.AllowAny',
@@ -197,10 +195,10 @@ CACHE_ENABLED = False
 if CACHE_ENABLED:
     CACHES = {
         "default": {
-            "BACKEND":  os.getenv('BACKEND'),
+            "BACKEND": os.getenv('BACKEND'),
             "LOCATION": os.getenv('LOCATION'),
-            }
         }
+    }
 
 CORS_ALLOWED_ORIGINS = [
     "https://localhost:8000",  # Замените на адрес вашего фронтенд-сервера
@@ -208,7 +206,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://read-and-write.example.com",  # Замените на адрес вашего фронтенд-сервера и добавьте адрес бэкенд-сервера
+    # Замените на адрес вашего фронтенд-сервера, добавьте адрес бэкенд-сервера
+    "https://read-and-write.example.com",
     "https://localhost:8000",
 ]
 
@@ -219,10 +218,11 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 
 TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')  # API Ключ для телеграм бота
 
-# SELERY ---------------------------------------------------------------------------
+# SELERY ----------------------------------------------------------------------
 
 # URL-адрес брокера сообщений
-CELERY_BROKER_URL = 'redis://localhost:6379'    # Например, Redis, который по умолчанию работает на порту 6379
+# Например, Redis, который по умолчанию работает на порту 6379
+CELERY_BROKER_URL = 'redis://localhost:6379'
 
 # URL-адрес брокера результатов, также Redis
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
@@ -250,4 +250,4 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
-# SELERY ---------------------------------------------------------------------------
+# SELERY -----------------------------------------------------------------

@@ -12,6 +12,4 @@ urlpatterns = [
     path('habits/update/<int:pk>/', HabitsUpdateAPIView.as_view(), name='habits-update'),
     path('habits/delete/<int:pk>/', HabitsDestroyAPIView.as_view(), name='habits-delete'),
     path('habits/published/', PublishedHabitListAPIView.as_view(), name='published-habits-list'),
-
-
 ]

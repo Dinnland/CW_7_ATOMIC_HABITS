@@ -41,4 +41,3 @@ def send_telegram_message():
             f'https://api.telegram.org/bot{telegram_bot_token}'
             f'/sendMessage?chat_id={habit.user.telegram_chat_id}&text={message}')
         return response.json()
-

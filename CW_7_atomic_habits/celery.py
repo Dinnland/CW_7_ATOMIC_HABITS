@@ -11,5 +11,5 @@ app = Celery('CW_7_atomic_habits')
 # Загрузка настроек из файла Django
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
-# Автоматическое обнаружение и регистрация задач из файлов tasks.py в приложениях Django
+# Авт. Обнаружение и регистрация задач из файлов tasks.py в приложениях Django
 app.autodiscover_tasks()

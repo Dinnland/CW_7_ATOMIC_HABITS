@@ -71,18 +71,32 @@
 
 - Создать суперпользователя можно командой: 
 python manage.py csu
+
 - Создать обычного пользователя можно командой: 
 python manage.py cu
+
 - Для запуска redis:
 redis-cli
+
 - Для запуска celery:
 celery -A CW_7_atomic_habits worker --pool=eventlet --loglevel=info
+
 - Для запуска django-celery-beat:
 celery -A CW_7_atomic_habits beat --loglevel=info
+
 - Для тестирования проекта запустить команду:
 python3 manage.py test
+
+- Для просмотра покрытия тестов:
+- coverage run --source='.' manage.py test
+- coverage report
+
 - Для запуска приложения:
 python3 manage.py runserver
+
+- Проверка flake8:
+flake8 CW_7_atomic_habits 
+
 - Документация проекта: 
 http://127.0.0.1:8000/swagger/
 http://127.0.0.1:8000/redoc/
