@@ -26,14 +26,19 @@ SECRET_KEY = \
     'django-insecure-m*m+b6k$2nu&5-11=*m0fm+r-7@v($fquo40a(cb1yk8j3hp0a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == 'True'
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '::1',
-    'testserver',
-]
+if os.getenv("ALLOWED_HOSTS") is not None:
+    ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(', ')
+else:
+    ALLOWED_HOSTS = ['*']
+
+# ALLOWED_HOSTS = [
+#     'localhost',
+#     '127.0.0.1',
+#     '::1',
+#     'testserver',
+# ]
 
 SITE_ID = 1
 
@@ -152,6 +157,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+ENV_TYPE = os.getenv('ENV_TYPE')
+
+if ENV_TYPE == 'local':
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
+
 AUTH_USER_MODEL = 'users.User'
 
 # Default primary key field type
@@ -190,7 +204,7 @@ REST_FRAMEWORK = {
 }
 
 # CACHE_ENABLED = True
-CACHE_ENABLED = False
+CACHE_ENABLED = os.getenv('CACHE_ENABLED')
 
 if CACHE_ENABLED:
     CACHES = {
@@ -222,10 +236,12 @@ TELEGRAM_API_KEY = os.getenv('TELEGRAM_API_KEY')  # API Ключ для теле
 
 # URL-адрес брокера сообщений
 # Например, Redis, который по умолчанию работает на порту 6379
-CELERY_BROKER_URL = 'redis://localhost:6379'
+# CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 
 # URL-адрес брокера результатов, также Redis
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
 
 # Часовой пояс для работы Celery
 CELERY_TIMEZONE = "Europe/Moscow"
